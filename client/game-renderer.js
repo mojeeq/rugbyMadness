@@ -72,8 +72,7 @@ export class RugbyRenderer {
     this.#createStadium();
     this.ballMesh = this.#createBall();
     this.scene.add(this.ballMesh);
-    this.#resize = this.#resize.bind(this);
-    window.addEventListener("resize", this.#resize);
+	window.addEventListener("resize", () => this.#resize());
     this.renderer.setAnimationLoop((time) => this.#render(time));
   }
 
