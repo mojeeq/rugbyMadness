@@ -1,0 +1,11 @@
+services:
+  rugby-madness:
+    build: .
+    container_name: rugby-madness
+    restart: unless-stopped
+    ports:
+      - "${GAME_PORT:-3000}:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      PUBLIC_ORIGIN: "${PUBLIC_ORIGIN:-}"

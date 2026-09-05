@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07110f" />
+    <meta
+      name="description"
+      content="Rugby Madness — a fast 3D browser rugby game featuring Sevens, Rugby League and 15-a-side Union."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%2307110f%22/><path d=%22M14 40c8-18 26-25 36-16-3 16-19 25-36 16Z%22 fill=%22%2343f5b5%22/><path d=%22m22 38 20-12%22 stroke=%22%2307110f%22 stroke-width=%224%22/></svg>"
+    />
+    <title>Rugby Madness</title>
+  </head>
+  <body>
+    <main id="game-shell">
+      <div id="viewport" aria-label="3D rugby match"></div>
+
+      <header id="match-hud" class="hidden" aria-live="polite">
+        <div class="team-card home-card">
+          <span id="home-name" class="team-name">HOME</span>
+          <strong id="home-score" class="team-score">0</strong>
+        </div>
+        <div class="match-clock">
+          <span id="mode-label">SEVENS</span>
+          <strong id="clock">03:00</strong>
+          <span id="half-label">1ST HALF</span>
+        </div>
+        <div class="team-card away-card">
+          <strong id="away-score" class="team-score">0</strong>
+          <span id="away-name" class="team-name">AWAY</span>
+        </div>
+      </header>
+
+      <div id="event-banner" class="event-banner hidden" role="status"></div>
+
+      <aside id="match-meta" class="match-meta hidden">
+        <span id="connection-state" class="connection-state"><i></i> Connected</span>
+        <span id="possession-label">HOME BALL</span>
+        <span id="tackle-label"></span>
+      </aside>
+
+      <canvas id="radar" class="radar hidden" width="220" height="150" aria-label="Pitch radar"></canvas>
+
+      <section id="start-screen" class="screen-layer">
+        <div class="start-panel">
+          <div class="brand-lockup">
+            <span class="brand-kicker">THREE CODES. ONE FIELD.</span>
+            <h1>RUGBY <em>MADNESS</em></h1>
+          </div>
+
+          <fieldset class="mode-picker">
+            <legend>Choose your code</legend>
+            <button class="mode-card selected" type="button" data-mode="sevens" aria-pressed="true">
+              <span class="mode-number">7</span>
+              <span><strong>Rugby Sevens</strong><small>Open field · 3-minute halves</small></span>
+            </button>
+            <button class="mode-card" type="button" data-mode="league" aria-pressed="false">
+              <span class="mode-number">13</span>
+              <span><strong>Rugby League</strong><small>Six tackles · fast restarts</small></span>
+            </button>
+            <button class="mode-card" type="button" data-mode="union" aria-pressed="false">
+              <span class="mode-number">15</span>
+              <span><strong>15s Union</strong><small>Rucks · contested ball</small></span>
+            </button>
+          </fieldset>
+
+          <label class="name-field" for="player-name">
+            <span>Player name</span>
+            <input id="player-name" type="text" maxlength="18" autocomplete="nickname" value="Player One" />
+          </label>
+
+          <div class="primary-actions">
+            <button id="practice-button" class="button button-primary" type="button">
+              <span>Play vs AI</span><small>Start immediately</small>
+            </button>
+            <button id="create-button" class="button button-secondary" type="button">
+              <span>Create online match</span><small>Invite a challenger</small>
+            </button>
+          </div>
+
+          <form id="join-form" class="join-form">
+            <label for="room-code">Have a match code?</label>
+            <div>
+              <input id="room-code" type="text" maxlength="5" autocomplete="off" placeholder="ABCDE" />
+              <button class="button button-join" type="submit">Join match</button>
+            </div>
+          </form>
+          <p id="menu-error" class="menu-error" role="alert"></p>
+        </div>
+      </section>
+
+      <section id="waiting-screen" class="screen-layer hidden" aria-live="polite">
+        <div class="dialog-panel waiting-panel">
+          <span class="eyebrow">ONLINE MATCH READY</span>
+          <h2>Share this code</h2>
+          <button id="copy-code" class="room-code" type="button" title="Copy match code">-----</button>
+          <p>Your challenger enters this code on the Rugby Madness start screen.</p>
+          <div class="waiting-pulse"><i></i><span>Waiting for player two</span></div>
+          <button id="cancel-waiting" class="text-button" type="button">Cancel match</button>
+        </div>
+      </section>
+
+      <section id="result-screen" class="screen-layer hidden" aria-live="polite">
+        <div class="dialog-panel result-panel">
+          <span class="eyebrow">FULL-TIME</span>
+          <h2 id="result-title">HOME WIN</h2>
+          <div class="result-score"><span id="result-home">0</span><i>–</i><span id="result-away">0</span></div>
+          <button id="rematch-button" class="button button-primary" type="button">Play again</button>
+          <button id="return-menu" class="text-button" type="button">Return to menu</button>
+        </div>
+      </section>
+
+      <div id="controls" class="controls hidden">
+        <span><kbd>WASD</kbd> Move</span>
+        <span><kbd>SHIFT</kbd> Sprint</span>
+        <span><kbd>Q</kbd><kbd>E</kbd> Pass</span>
+        <span><kbd>SPACE</kbd> Tackle</span>
+        <span><kbd>K</kbd> Kick</span>
+      </div>
+
+      <button id="exit-match" class="exit-match hidden" type="button" aria-label="Leave match">Exit</button>
+    </main>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
