@@ -13,6 +13,40 @@ This repository is the first playable foundation. It includes:
 - Server-authoritative movement, passing, kicking, tackling, scoring and match clock
 - Docker deployment for Ubuntu
 
+## Startup hotfix: frozen menu / private method is not writable
+
+This corrected package fixes the renderer startup crash that prevented menu
+buttons from being connected. In a production bundle the error may name a
+short private method such as `#e` instead of `#resize`.
+
+For an existing installation:
+
+1. Extract this corrected ZIP and upload its contents into the root of your
+   existing GitHub repository, replacing the matching source files. Commit
+   the changes. Uploading just the ZIP does not update the source Docker builds.
+2. In the repository directory on Ubuntu, run:
+
+   ```bash
+   git pull --ff-only &&
+   sudo docker compose build --no-cache rugby-madness &&
+   sudo docker compose up -d --force-recreate rugby-madness
+   ```
+
+3. Keep your existing `.env` file. Do not copy `.env.example` over it when
+   updating; `GAME_PORT=3001` can remain unchanged.
+4. Open the game in a new private/incognito window or hard-refresh the game
+   page with `Ctrl+Shift+R` to load the newly built JavaScript.
+
+If Git reports conflicting local edits, stop and inspect `git status` before
+continuing. Do not discard your files or force-reset the repository. Recreating
+this service interrupts active matches but does not stop other applications.
+
+The targeted regression tests execute the real renderer class with simulated
+browser/GPU interfaces. They reproduce the original crash and exercise startup,
+resize callbacks, and snapshots for all three codes after the fix. These tests
+are not a real-browser rendering check. The production build and multiplayer
+checks are separate; Docker itself is not available in the packaging environment.
+
 ## Controls
 
 | Action | Key |

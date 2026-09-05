@@ -72,7 +72,9 @@ export class RugbyRenderer {
     this.#createStadium();
     this.ballMesh = this.#createBall();
     this.scene.add(this.ballMesh);
-	window.addEventListener("resize", () => this.#resize());
+    // Private methods are not writable. Keep the callback bound without
+    // assigning back to #resize, which would abort startup before UI wiring.
+    window.addEventListener("resize", () => this.#resize());
     this.renderer.setAnimationLoop((time) => this.#render(time));
   }
 
